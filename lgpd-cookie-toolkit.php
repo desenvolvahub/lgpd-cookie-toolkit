@@ -78,3 +78,8 @@ function lgpd_cookie_toolkit_settings_page() {
 
 
 
+function lgpd_cookie_toolkit_include_consent_modal() {
+    include plugin_dir_path(__FILE__) . 'views/consent-modal.php';
+}
+
+add_action('wp_footer', 'lgpd_cookie_toolkit_include_consent_modal');
