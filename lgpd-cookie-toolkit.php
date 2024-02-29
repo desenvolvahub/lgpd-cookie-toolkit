@@ -159,11 +159,8 @@ function lgpd_cookie_toolkit_register_settings() {
 add_action('admin_init', 'lgpd_cookie_toolkit_register_settings');
 
 function lgpd_cookie_toolkit_custom_styles() {
-    // Obtem a cor primária definida pelo usuário ou usa o padrão #13a1b5 se não estiver definida
     $primary_color = get_option('lgpd_cookie_toolkit_primary_color', '#13a1b5');
-
     // Calcula uma versão mais escura da cor primária para o hover
-    // Certifique-se de que a função lgpd_cookie_toolkit_adjust_brightness() esteja definida e capaz de ajustar a cor corretamente
     $darker_primary_color = lgpd_cookie_toolkit_adjust_brightness($primary_color, -50);
 
     echo "<style>
@@ -172,26 +169,29 @@ function lgpd_cookie_toolkit_custom_styles() {
         --darker-primary-color: $darker_primary_color;
     }
         .btn-primary, .slider:checked, #lgpd-cookie-consent .text a {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: $primary_color;
+            border-color: $primary_color;
             color: #fff; /* Cor do texto dentro do botão primário */
         }
         .btn-outline {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+            border-color: $primary_color;
+            color: $primary_color;
         }
         .btn-outline:hover, .btn-primary:hover {
-            background-color: var(--darker-primary-color);
-            border-color: var(--darker-primary-color);
+            background-color: $darker_primary_color;
+            border-color: $darker_primary_color;
             color: #fff;
         }
         .slider.round:before {
-            background-color: var(--primary-color);
+            background-color: $primary_color;
         }
         #cookieCustomizationModal .modal-header .modal-title, #cookieCustomizationModal .modal-cookies .modal-title-category {
-            color: var(--primary-color);
+            color: $primary_color;
         }
         #lgpd-cookie-consent .text a {
+            background: none;
+            border: none;
+            color: var(--primary-color);
             text-decoration: underline;
         }
         .btn-primary:focus, .btn-outline:focus, .btn-secondary:focus {
@@ -263,4 +263,3 @@ function handle_save_cookie_preferences() {
 }
 add_action('wp_ajax_save_cookie_preferences', 'handle_save_cookie_preferences');
 add_action('wp_ajax_nopriv_save_cookie_preferences', 'handle_save_cookie_preferences');
-
