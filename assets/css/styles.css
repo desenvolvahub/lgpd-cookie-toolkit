@@ -1,44 +1,276 @@
-#lgpd-cookie-consent .modal {
+#lgpd-cookie-consent {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 30px;
+    left: 50px;
+    right:50px;
     background-color: #fff;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1050; /* Valor alto para garantir que fique acima de outros conteúdos */
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-sizing: border-box;
+    max-width: calc(100% - 40px);
 }
 
-#lgpd-cookie-consent .modal-body {
+#lgpd-cookie-consent .cookie-consent-body, 
+#lgpd-cookie-consent .modal-body { /* Se .modal-body for necessário, combine as regras */
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #lgpd-cookie-consent .text {
     margin-bottom: 20px;
-    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#lgpd-cookie-consent .text a {
+    background: none; /* Remove qualquer fundo */
+    border: none; /* Remove qualquer borda */
+    color: var(--primary-color); /* Aplica a cor primária ao texto */
+    text-decoration: underline; /* Opcional: sublinha para indicar que é um link */
 }
 
 #lgpd-cookie-consent .buttons {
     display: flex;
     gap: 10px;
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .btn-outline, .btn-primary {
-    border: none;
+    border: 1px solid #13a1b5;
     padding: 10px 20px;
     cursor: pointer;
-    font-size: 16px;
-}
-
-.btn-outline {
+    font-size: 14px;
     background-color: transparent;
-    border: 2px solid #007bff;
-    color: #007bff;
+    color: #13a1b5;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #13a1b5;
     color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+.btn-primary:hover {
+    background-color: #13a1b5;
+    border: none;
+   
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #141414;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.btn-outline:hover {
+    color: #fff; /* Ou qualquer outra cor que deseja para o texto */
+    background-color: #13a1b5; /* Cor de fundo ao passar o mouse */
+}
+
+
+  .cookie-category h5 {
+   font-size: 16px;
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .cookie-category p {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   }
+
+   .modal-body h4 {
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   }
+   
+   .modal-body p {
+    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   }
+
+   .flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .cookie-text {
+    flex-grow: 1;
+    margin-right: 20px; 
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;/* Ajuste conforme necessário para manter espaço entre o texto e o switch */
+  }
+  
+  .custom-switch {
+    flex-shrink: 0; /* Mantém o switch do tamanho original */
+  }
+
+  /* Estilo para o switch button */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  /* Esconde o checkbox padrão */
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Estilo da "bolinha" do switch */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--primary-color);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #13a1b5;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  /* Quando ativo, muda a cor da bolinha */
+input:checked + .slider:before {
+    background-color: var(--darker-primary-color); /* Uma cor mais escura que a primária */
+}
+
+  /* Formato arredondado para o switch */
+  .slider.round {
+    border-radius: 24px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: center; /* Mantém como está para centralizar os botões */
+    gap: 10px; /* Adiciona um espaço entre os botões */
+  }
+  
+  .modal-footer .btn {
+    flex: 1; /* Faz com que cada botão cresça igualmente para ocupar o espaço disponível */
+    /* Caso queira que os botões tenham um tamanho máximo específico, você pode remover o flex: 1 e usar width: 100%; com max-width: [valor]; */
+  }
+  
+  /* Se desejar que os botões tenham um tamanho mínimo mas ainda preencham o espaço, pode combinar flex-grow com min-width */
+  .modal-footer .btn {
+    flex-grow: 1;
+    min-width: 120px; /* Ajuste conforme necessário para o tamanho mínimo desejado */
+  }
+
+  #cookieCustomizationModal .modal-header {
+    display: flex; /* Assegura que o header usa display flex */
+    justify-content: center; /* Centraliza os itens no eixo principal (horizontal) */
+    align-items: center; /* Centraliza os itens no eixo transversal (vertical) */
+    text-align: center; /* Garante que o texto dentro também esteja centralizado */
+}
+
+#cookieCustomizationModal .modal-header .modal-title {
+    flex: 1; /* Permite que o título ocupe todo o espaço disponível */
+    text-align: center; /* Centraliza o texto do título */
+    font-size: 16px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #13a1b5; /* Personaliza a cor do título, se necessário */
+    font-weight: bold;
+}
+
+#cookieCustomizationModal .modal-cookies {
+    display: flex; /* Assegura que o header usa display flex */
+    justify-content: center; /* Centraliza os itens no eixo principal (horizontal) */
+    align-items: center; /* Centraliza os itens no eixo transversal (vertical) */
+    text-align: center; /* Garante que o texto dentro também esteja centralizado */
+}
+
+#cookieCustomizationModal .modal-cookies .modal-title-category {
+    flex: 1; /* Permite que o título ocupe todo o espaço disponível */
+    text-align: center; /* Centraliza o texto do título */
+    font-size: 16px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #13a1b5; /* Personaliza a cor do título, se necessário */
+    font-weight: bold;
+}
+
+#cookieCustomizationModal .modal-dialog {
+    max-width: 60%; /* Ajusta para a largura desejada */
+    margin: 1.75rem auto;
+}
+
+.btn-primary:focus, .btn-outline:focus, .btn-secondary:focus {
+    outline: none;
+}
+
+@media (max-width: 768px) { /* Ajusta para dispositivos com largura até 768px */
+    #cookieCustomizationModal .modal-dialog {
+      max-width: 100%;
+      margin: 0;
+      height: 100vh; /* Faz com que o modal ocupe a altura total da tela */
+      display: flex;
+      flex-direction: column; /* Para garantir que o conteúdo do modal seja bem distribuído */
+    }
+    #cookieCustomizationModal .modal-content {
+      border-radius: 0; /* Remove bordas arredondadas para ocupar toda a tela */
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Permite que o conteúdo cresça para ocupar o espaço disponível */
+    }
+    #cookieCustomizationModal .modal-body {
+      overflow-y: auto; /* Permite a rolagem dentro do modal se o conteúdo exceder a altura da tela */
+      flex-grow: 1; /* Faz com que o corpo do modal cresça para ocupar o espaço disponível */
+    }
+  }
+
+  .cookie-consent-footer {
+    text-align: center; /* Centraliza o conteúdo */
+    margin-top: 20px; /* Espaço acima do footer para separar dos botões */
+    font-size: 8px; /* Tamanho do texto */
+}
+
+.cookie-consent-logo {
+    width: 30px; /* Largura da imagem do logo. Ajuste conforme necessário */
+    vertical-align: middle; /* Alinha verticalmente com o texto */
+    margin-left: 10px; /* Espaço entre o texto e a imagem */
+    
+}
+

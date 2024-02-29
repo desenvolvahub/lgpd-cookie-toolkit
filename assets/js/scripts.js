@@ -1,47 +1,125 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var cookieConsentModal = document.getElementById('lgpd-cookie-consent');
+(function($) {
+  $(document).ready(function() {
+      // Verifica o consentimento existente ao carregar a página
+      checkCookieConsent();
 
-    // Função para verificar a preferência do cookie
-    function checkCookieConsent() {
-        var consent = lgpd_cookie_toolkit_get_cookie('cookie_consent');
-        return consent !== null;
+      // Aceitar cookies
+      $('#accept-cookies').on('click', function() {
+          var preferences = {
+              essential: true,
+              functional: true,
+              analytics: true,
+              advertising: true
+          };
+          saveCookiePreferences(preferences);
+      });
+
+      // Rejeitar cookies
+      $('#reject-cookies').on('click', function() {
+          hideCookieConsentModal();
+      });
+
+    // Personalizar cookies
+    $('#customize-cookies').on('click', function() {
+      $('#cookieCustomizationModal').modal('show');
+      hideCookieConsentModal(); // Garante que o aviso de consentimento será ocultado
+  });
+
+      // Salvar preferências personalizadas
+      // Note que removemos a segunda chamada $(document).ready e unificamos as chamadas
+      $('#saveCookiePreferences').on('click', function() {
+          var preferences = {
+              essential: true,
+              functional: $('#functionalCookies').is(':checked'),
+              analytics: $('#analyticsCookies').is(':checked'),
+              advertising: $('#advertisingCookies').is(':checked')
+          };
+          saveCookiePreferences(preferences);
+          $('#cookieCustomizationModal').modal('hide');
+      });
+
+      $('#confirmMyChoice').on('click', function() {
+        var preferences = {
+            essential: true,
+            functional: $('#functionalCookies').is(':checked'),
+            analytics: $('#analyticsCookies').is(':checked'),
+            advertising: $('#adsCookies').is(':checked') // Certifique-se de que o ID está correto
+        };
+        saveCookiePreferences(preferences);
+        $('#cookieCustomizationModal').modal('hide');
+    });
+    $('.btn-secondary[data-dismiss="modal"]').on('click', function() {
+      // Aqui, você pode optar por não fazer nada, pois o evento 'hidden.bs.modal' já cuidará de mostrar novamente o aviso de consentimento,
+      // a menos que você queira executar alguma lógica adicional aqui.
+  });
+
+  function showCookieConsentModal() {
+    $('#lgpd-cookie-consent').show();
+}
+
+        // Evento disparado quando o modal de personalização é fechado
+        $('#cookieCustomizationModal').on('hidden.bs.modal', function () {
+          // Verifica se as preferências de cookies não foram salvas/aceitas
+          if (!getCookie('cookiePreferences')) {
+              showCookieConsentModal(); // Mostra o aviso de consentimento novamente
+          }
+      });
+
+      function saveCookiePreferences(preferences) {
+          // Converter preferências para string JSON para armazenamento em cookie
+          setCookie('cookiePreferences', JSON.stringify(preferences), 365);
+          hideCookieConsentModal();
+
+          // Enviar preferências para o servidor usando AJAX
+          $.ajax({
+              url: ajax_object.ajax_url, // Corrigido para usar a variável definida por wp_localize_script
+              type: 'POST',
+              data: {
+                  action: 'save_cookie_preferences',
+                  preferences: JSON.stringify(preferences),
+                  security: ajax_object.nonce // Incluindo o nonce para segurança
+              },
+              success: function(response) {
+                  console.log("Preferências salvas no servidor: ", response);
+              },
+              error: function(xhr, status, error) {
+                  console.error("Erro ao salvar preferências no servidor: ", error);
+              }
+          });
+      }
+
+      function setCookie(name, value, days) {
+          var expires = "";
+          if (days) {
+              var date = new Date();
+              date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+              expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+
+      function getCookie(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i < ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+          }
+          return null;
+      }
+
+      function checkCookieConsent() {
+          var preferences = getCookie('cookiePreferences');
+          if (!preferences) {
+              $('#lgpd-cookie-consent').css('display', 'flex');
+          } else {
+              $('#lgpd-cookie-consent').hide();
+          }
+      }
+
+      function hideCookieConsentModal() {
+        $('#lgpd-cookie-consent').hide();
     }
-
-    // Exibir ou ocultar o modal com base na preferência do cookie
-    function toggleCookieConsentModal() {
-        if (cookieConsentModal) {
-            cookieConsentModal.style.display = checkCookieConsent() ? 'none' : 'block';
-        }
-    }
-
-    // Exibir a caixa de consentimento ao carregar a página
-    toggleCookieConsentModal();
-
-    // Ação ao clicar no botão "Aceitar cookies"
-    var acceptCookiesButton = document.getElementById('accept-cookies');
-    if (acceptCookiesButton) {
-        acceptCookiesButton.addEventListener('click', function () {
-            // Ação para aceitar cookies
-            lgpd_cookie_toolkit_set_cookie('cookie_consent', 'accepted', 365 * 24 * 60 * 60);
-            toggleCookieConsentModal();
-        });
-    }
-
-    // Ação ao clicar no botão "Rejeitar cookies"
-    var rejectCookiesButton = document.getElementById('reject-cookies');
-    if (rejectCookiesButton) {
-        rejectCookiesButton.addEventListener('click', function () {
-            // Ação para rejeitar cookies
-            lgpd_cookie_toolkit_set_cookie('cookie_consent', 'rejected', 365 * 24 * 60 * 60);
-            toggleCookieConsentModal();
-        });
-    }
-
-    // Ação ao clicar no botão "Personalizar cookies"
-    var customizeCookiesButton = document.getElementById('customize-cookies');
-    if (customizeCookiesButton) {
-        customizeCookiesButton.addEventListener('click', function () {
-            // Implemente a personalização conforme necessário
-        });
-    }
-});
+  });
+})(jQuery);
