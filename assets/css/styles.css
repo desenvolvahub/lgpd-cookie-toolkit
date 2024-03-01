@@ -295,4 +295,9 @@ input:checked + .slider:before {
         max-width: 25px; /* Limita a largura máxima da logo */
         max-height: 25px; /* Limita a altura máxima para manter a proporção */
     }
+
+    #cookieCustomizationModal .modal-dialog {
+        max-width: 100%; /* Ajusta para a largura desejada */
+        margin: 1.75rem auto;
+    }
 }

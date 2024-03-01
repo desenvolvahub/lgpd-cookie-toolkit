@@ -7,9 +7,9 @@
  para saber mais sobre o assunto.
         </div>
         <div class="buttons">
-            <button id="reject-cookies" class="btn-outline">Rejeitar Cookies</button>
+            <button id="reject-cookies" class="btn-outline">Rejeitar</button>
             <button id="customize-cookies" class="btn-outline">Personalizar</button>
-            <button id="accept-cookies" class="btn-primary">Aceitar Cookies</button>
+            <button id="accept-cookies" class="btn-primary">Aceitar</button>
         </div>
         <div class="cookie-consent-footer">
         Powered by: <img src="https://desenvolvaweb.com/wp-content/uploads/2022/06/admin-ajax.png" alt="Logo da Empresa" class="cookie-consent-logo"/>
@@ -96,8 +96,8 @@
         <!-- Repetir para outras categorias -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixar para depois</button>
-        <button type="button" class="btn btn-primary" id="confirmMyChoice">Confirmar minha escolha</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="confirmMyChoice">Aceitar</button>
 
       </div>
     </div>
