@@ -54,70 +54,85 @@ add_action('wp_ajax_nopriv_lgpd_cookie_toolkit_save_preferences', 'lgpd_cookie_t
 
 
 function lgpd_cookie_toolkit_scripts() {
-    $script_url = 'http://lgpd.desenvolvahub.com/script.js'; // Endereço do script externo.
+    // Enfileira Bootstrap CSS
+    wp_enqueue_style('bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+     // Seu CSS personalizado
+    wp_enqueue_style('lgpd-cookie-toolkit-style', plugins_url('/assets/css/styles.css', __FILE__));
+    // Enfileira jQuery (vem com o WordPress)
+    wp_enqueue_script('jquery');
 
-    wp_enqueue_script('lgpd-cookie-toolkit-external-script', $script_url, array('jquery'), null, true);
+    // Enfileira Bootstrap JS
+    wp_enqueue_script('bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js', array('jquery'), null, true);
 
-    $settings = array(
-        'privacyPolicyUrl' => get_option('lgpd_cookie_toolkit_privacy_policy_url', ''),
-        'primaryColor' => get_option('lgpd_cookie_toolkit_primary_color', '#000'),
-        'hideRejectButton' => get_option('lgpd_cookie_toolkit_hide_reject_button', false) ? true : false,
-        'hideCustomizeButton' => get_option('lgpd_cookie_toolkit_hide_customize_button', false) ? true : false,
-    );
+    wp_enqueue_script('lgpd-cookie-toolkit-script', plugin_dir_url(__FILE__) . 'assets/js/scripts.js', array('jquery'), '1.0', true);
+    wp_localize_script('lgpd-cookie-toolkit-script', 'ajax_object', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('ajax_cookie_nonce')
+    ));
 
-    wp_localize_script('lgpd-cookie-toolkit-external-script', 'lgpdSettings', $settings);
 }
 add_action('wp_enqueue_scripts', 'lgpd_cookie_toolkit_scripts');
 
 
 
 function lgpd_cookie_toolkit_settings_page() {
-    // Verifica se o usuário tem permissões adequadas
+    // Verificar permissões
     if (!current_user_can('manage_options')) {
         return;
     }
 
-    // Verifica a submissão do formulário e atualiza as configurações
-    if (isset($_POST['submit'])) {
-        check_admin_referer('lgpd_cookie_toolkit_update_settings');
+    // Verificar se o usuário está tentando salvar as configurações
+    if (isset($_POST['update_settings'])) {
+        check_admin_referer('lgpd_update_settings');
 
-        // Atualiza as opções no banco de dados
-        update_option('lgpd_cookie_toolkit_primary_color', sanitize_text_field($_POST['primary_color']));
-        update_option('lgpd_cookie_toolkit_privacy_policy_url', esc_url_raw($_POST['privacy_policy_url']));
-        update_option('lgpd_cookie_toolkit_hide_reject_button', isset($_POST['hide_reject_button']) ? '1' : '0');
-        update_option('lgpd_cookie_toolkit_hide_customize_button', isset($_POST['hide_customize_button']) ? '1' : '0');
-
-        // Mensagem de confirmação
-        echo '<div class="updated"><p>Settings saved.</p></div>';
+        // Salvar as novas configurações
+        update_option('lgpd_cookie_toolkit_primary_color', sanitize_hex_color($_POST['lgpd_cookie_toolkit_primary_color']));
+        update_option('lgpd_cookie_toolkit_privacy_policy_url', esc_url_raw($_POST['lgpd_cookie_toolkit_privacy_policy_url']));
+        update_option('lgpd_cookie_toolkit_hide_reject_button', isset($_POST['lgpd_cookie_toolkit_hide_reject_button']) ? '1' : '0');
+        update_option('lgpd_cookie_toolkit_hide_customize_button', isset($_POST['lgpd_cookie_toolkit_hide_customize_button']) ? '1' : '0');
+        
+        echo '<div id="message" class="updated fade"><p>Settings saved.</p></div>';
     }
 
-    // Formulário de configurações
+    // HTML do formulário de configurações
     ?>
     <div class="wrap">
-        <h1>LGPD Cookie Toolkit Settings</h1>
+        <h2><?php echo __('LGPD Cookie Toolkit Settings', 'lgpd-cookie-toolkit'); ?></h2>
         <form method="post" action="">
-            <?php wp_nonce_field('lgpd_cookie_toolkit_update_settings'); ?>
+            <?php
+            wp_nonce_field('lgpd_update_settings');
+            ?>
             <table class="form-table">
-                <tr>
-                    <th scope="row"><label for="primary_color">Primary Color</label></th>
-                    <td><input type="text" id="primary_color" name="primary_color" value="<?php echo esc_attr(get_option('lgpd_cookie_toolkit_primary_color')); ?>" class="regular-text" /></td>
+                <tr valign="top">
+                    <th scope="row">Cor Primária:</th>
+                    <td><input type="text" name="lgpd_cookie_toolkit_primary_color" value="<?php echo get_option('lgpd_cookie_toolkit_primary_color'); ?>" class="my-color-field" /></td>
                 </tr>
-                <tr>
-                    <th scope="row"><label for="privacy_policy_url">Privacy Policy URL</label></th>
-                    <td><input type="url" id="privacy_policy_url" name="privacy_policy_url" value="<?php echo esc_url(get_option('lgpd_cookie_toolkit_privacy_policy_url')); ?>" class="regular-text" /></td>
+                <tr valign="top">
+                    <th scope="row">URL Politica de Privacidade:</th>
+                    <td><input type="text" name="lgpd_cookie_toolkit_privacy_policy_url" value="<?php echo esc_attr(get_option('lgpd_cookie_toolkit_privacy_policy_url')); ?>" /></td>
                 </tr>
-                <tr>
-                    <th scope="row">Hide Reject Button</th>
-                    <td><input type="checkbox" id="hide_reject_button" name="hide_reject_button" value="1" <?php checked(get_option('lgpd_cookie_toolkit_hide_reject_button'), '1'); ?> /></td>
+                <tr valign="top">
+                    <th scope="row">Ocultar botão Rejeitar:</th>
+                    <td><input type="checkbox" name="lgpd_cookie_toolkit_hide_reject_button" value="1" <?php checked(get_option('lgpd_cookie_toolkit_hide_reject_button'), '1'); ?> /></td>
                 </tr>
-                <tr>
-                    <th scope="row">Hide Customize Button</th>
-                    <td><input type="checkbox" id="hide_customize_button" name="hide_customize_button" value="1" <?php checked(get_option('lgpd_cookie_toolkit_hide_customize_button'), '1'); ?> /></td>
+                <tr valign="top">
+                    <th scope="row">Ocultar botão Personalizar:</th>
+                    <td><input type="checkbox" name="lgpd_cookie_toolkit_hide_customize_button" value="1" <?php checked(get_option('lgpd_cookie_toolkit_hide_customize_button'), '1'); ?> /></td>
                 </tr>
             </table>
-            <?php submit_button('Save Changes'); ?>
+            <?php submit_button('Salvar Alterações', 'primary', 'update_settings'); ?>
         </form>
     </div>
+    <?php
+    // Adicione o seletor de cores ao campo de cor primária
+    wp_enqueue_script('wp-color-picker');
+    wp_enqueue_style('wp-color-picker');
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('.my-color-field').wpColorPicker();
+        });
+    </script>
     <?php
 }
 
