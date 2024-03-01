@@ -240,37 +240,59 @@ input:checked + .slider:before {
 .btn-primary:focus, .btn-outline:focus, .btn-secondary:focus {
     outline: none;
 }
-
-@media (max-width: 768px) { /* Ajusta para dispositivos com largura até 768px */
-    #cookieCustomizationModal .modal-dialog {
-      max-width: 100%;
-      margin: 0;
-      height: 100vh; /* Faz com que o modal ocupe a altura total da tela */
-      display: flex;
-      flex-direction: column; /* Para garantir que o conteúdo do modal seja bem distribuído */
-    }
-    #cookieCustomizationModal .modal-content {
-      border-radius: 0; /* Remove bordas arredondadas para ocupar toda a tela */
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1; /* Permite que o conteúdo cresça para ocupar o espaço disponível */
-    }
-    #cookieCustomizationModal .modal-body {
-      overflow-y: auto; /* Permite a rolagem dentro do modal se o conteúdo exceder a altura da tela */
-      flex-grow: 1; /* Faz com que o corpo do modal cresça para ocupar o espaço disponível */
-    }
-  }
-
-  .cookie-consent-footer {
-    text-align: center; /* Centraliza o conteúdo */
-    margin-top: 20px; /* Espaço acima do footer para separar dos botões */
-    font-size: 8px; /* Tamanho do texto */
-}
-
 .cookie-consent-logo {
-    width: 30px; /* Largura da imagem do logo. Ajuste conforme necessário */
-    vertical-align: middle; /* Alinha verticalmente com o texto */
-    margin-left: 10px; /* Espaço entre o texto e a imagem */
-    
+
+    width: 30px /* Ajusta a largura automaticamente */
+ 
 }
 
+.cookie-consent-footer {
+    font-size: 10px; /* Diminui o tamanho da fonte */
+    margin-top: 8px; /* Espaçamento do rodapé */
+    width: 100%; /* Ajusta a largura */
+    justify-content: center; /* Centraliza o conteúdo */
+}
+
+@media (max-width: 768px) {
+    #lgpd-cookie-consent {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        flex-direction: row; /* Mantém o conteúdo em linha */
+        flex-wrap: wrap; /* Permite a quebra de linha conforme necessário */
+        justify-content: space-around; /* Espaçamento entre itens */
+        padding: 10px;
+    }
+
+    #lgpd-cookie-consent .cookie-consent-body {
+        padding: 10px;
+        text-align: center; /* Centraliza o texto */
+    }
+
+    #lgpd-cookie-consent .text, #lgpd-cookie-consent .buttons {
+        font-size: 12px; /* Tamanho de fonte para dispositivos móveis */
+        width: 100%; /* Ocupa a largura total para evitar sobreposição */
+        margin-bottom: 5px; /* Espaçamento entre o texto e os botões */
+    }
+
+    .btn-outline, .btn-primary, .btn-secondary {
+        font-size: 12px; /* Diminui o tamanho da fonte dos botões */
+        padding: 5px; /* Reduz o padding para economizar espaço */
+        flex: none; /* Remove a propriedade flex para evitar expansão */
+        margin: 0 2px; /* Adiciona margem lateral para separar os botões */
+    }
+
+    .cookie-consent-footer {
+        font-size: 10px; /* Diminui o tamanho da fonte */
+        margin-top: 8px; /* Espaçamento do rodapé */
+        width: 100%; /* Ajusta a largura */
+        justify-content: center; /* Centraliza o display: flex; /* Habilita flexbox */
+    }
+
+    .cookie-consent-logo {
+        height: auto; /* Mantém a altura automática para preservar a proporção */
+        width: auto; /* Ajusta a largura automaticamente */
+        max-width: 25px; /* Limita a largura máxima da logo */
+        max-height: 25px; /* Limita a altura máxima para manter a proporção */
+    }
+}

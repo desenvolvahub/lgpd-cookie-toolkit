@@ -3,13 +3,13 @@
 <div id="lgpd-cookie-consent" style="display:none;">
     <div class="cookie-consent-body">
         <div class="text">
-            Utilizamos cookies para melhorar sua experiência. Acesse o link <a href="<?php echo esc_url(get_option('lgpd_cookie_toolkit_privacy_policy_url', '/privacidade-de-dados')); ?>" target="_blank">Política de privacidade</a>
+            Utilizamos cookies para melhorar sua experiência. Acesse o link <a href="<?php echo esc_url(get_option('lgpd_cookie_toolkit_privacy_policy_url', '/privacidade-de-dados')); ?>" target="_blank">Política de Privacidade</a>
  para saber mais sobre o assunto.
         </div>
         <div class="buttons">
-            <button id="reject-cookies" class="btn-outline">Rejeitar cookies</button>
+            <button id="reject-cookies" class="btn-outline">Rejeitar Cookies</button>
             <button id="customize-cookies" class="btn-outline">Personalizar</button>
-            <button id="accept-cookies" class="btn-primary">Aceitar cookies</button>
+            <button id="accept-cookies" class="btn-primary">Aceitar Cookies</button>
         </div>
         <div class="cookie-consent-footer">
         Powered by: <img src="https://desenvolvaweb.com/wp-content/uploads/2022/06/admin-ajax.png" alt="Logo da Empresa" class="cookie-consent-logo"/>
